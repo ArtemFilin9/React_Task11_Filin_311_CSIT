@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
+import { postData } from '../services/api';
 
 interface User {
   id: number
@@ -19,18 +20,31 @@ const initialState: UserState = {
   isAuth: false,
 }
 
+
+export const loginUser = createAsyncThunk<
+  { user: User; token: string },
+  { email: string; password: string }
+  >('user/login', async (credentials) => {
+    return await postData<
+      { user: User; token: string },
+      { email: string; password: string }
+  >('/login', credentials);
+});
+
+export const registerUser = createAsyncThunk<
+  { user: User; token: string },
+  { email: string; password: string; name?: string }
+  >('user/register', async (userData) => {
+    return await postData<
+      { user: User; token: string },
+      { email: string; password: string; name?: string }
+  >('/register', userData);
+});
+
 const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    login: (
-      state,
-      action: PayloadAction<{ user: User; token: string }>
-    ) => {
-      state.user = action.payload.user
-      state.token = action.payload.token
-      state.isAuth = true
-    },
     logout: (state) => {
       state.user = null
       state.token = null
@@ -40,7 +54,30 @@ const userSlice = createSlice({
       state.user = action.payload
     },
   },
+  extraReducers: (builder) => {
+    builder
+      .addCase(loginUser.fulfilled, (state, action) => {
+        state.user = action.payload.user;
+        state.token = action.payload.token;
+        state.isAuth = true;
+      })
+      .addCase(registerUser.fulfilled, (state, action) => {
+        state.user = action.payload.user;
+        state.token = action.payload.token;
+        state.isAuth = true;
+      })
+      .addCase(loginUser.rejected, (state) => {
+        state.user = null;
+        state.token = null;
+        state.isAuth = false;
+      })
+      .addCase(registerUser.rejected, (state) => {
+        state.user = null;
+        state.token = null;
+        state.isAuth = false;
+      });
+  },
 })
 
-export const { login, logout, updateUser } = userSlice.actions
+export const { logout, updateUser } = userSlice.actions
 export default userSlice.reducer

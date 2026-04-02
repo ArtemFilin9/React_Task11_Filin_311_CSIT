@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { getData } from '../services/api'
+import { logout } from './userSlice';
 
 /* ================= TYPES ================= */
 
@@ -14,13 +15,9 @@ interface AlbumsState {
   albums: Album[]
 }
 
-/* ================= INITIAL STATE ================= */
-
 const initialState: AlbumsState = {
   albums: [],
 }
-
-/* ================= ASYNC THUNK ================= */
 
 export const fetchAlbums = createAsyncThunk<Album[]>(
   'albums/fetchAlbums',
@@ -29,19 +26,21 @@ export const fetchAlbums = createAsyncThunk<Album[]>(
   }
 )
 
-/* ================= SLICE ================= */
-
 const albumsSlice = createSlice({
   name: 'albums',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(
-      fetchAlbums.fulfilled,
-      (state, action: PayloadAction<Album[]>) => {
-        state.albums = action.payload
-      }
-    )
+    builder
+      .addCase(
+        fetchAlbums.fulfilled,
+        (state, action: PayloadAction<Album[]>) => {
+          state.albums = action.payload
+        }
+      )
+      .addCase(logout, (state) => {
+        state.albums = [];
+      });
   },
 })
 

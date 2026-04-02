@@ -1,8 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
-import { getData } from '../services/api'
-
-/* ================= TYPES ================= */
+import { getData, postData } from '../services/api'
+import { logout } from './userSlice';
 
 export interface Comment {
   id: number
@@ -16,13 +15,9 @@ interface CommentsState {
   comments: Comment[]
 }
 
-/* ================= INITIAL STATE ================= */
-
 const initialState: CommentsState = {
   comments: [],
 }
-
-/* ================= ASYNC THUNK ================= */
 
 export const fetchComments = createAsyncThunk<Comment[]>(
   'comments/fetchComments',
@@ -30,20 +25,31 @@ export const fetchComments = createAsyncThunk<Comment[]>(
     return await getData<Comment[]>('/comments')
   }
 )
-
-/* ================= SLICE ================= */
+export const addComment = createAsyncThunk<
+  Comment,
+  { postId: number; body: string; name?: string; email?: string }
+  >('comments/addComment', async (newCommentData) => {
+  return await postData<Comment, typeof newCommentData>('/comments', newCommentData);
+});
 
 const commentsSlice = createSlice({
   name: 'comments',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(
-      fetchComments.fulfilled,
-      (state, action: PayloadAction<Comment[]>) => {
-        state.comments = action.payload
-      }
-    )
+    builder
+      .addCase(
+        fetchComments.fulfilled,
+        (state, action: PayloadAction<Comment[]>) => {
+          state.comments = action.payload
+        }
+      )
+      .addCase(addComment.fulfilled, (state, action) => {
+        state.comments = [...state.comments, action.payload];
+      })
+      .addCase(logout, (state) => {
+        state.comments = [];
+      });
   },
 })
 

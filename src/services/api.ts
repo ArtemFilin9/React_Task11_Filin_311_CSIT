@@ -2,8 +2,6 @@ import { axiosInstance } from './axiosInstance'
 import { store } from '../app/store'
 import { setLoading, setError } from '../store/settingsSlice'
 
-/* ================= GET ================= */
-
 export const getData = async <T>(url: string): Promise<T> => {
   try {
     store.dispatch(setLoading(true))
@@ -19,9 +17,7 @@ export const getData = async <T>(url: string): Promise<T> => {
   }
 }
 
-/* ================= POST ================= */
-
-export const createData = async <T, D>(
+export const postData = async <T, D>(
   url: string,
   data: D
 ): Promise<T> => {
@@ -38,8 +34,6 @@ export const createData = async <T, D>(
     store.dispatch(setLoading(false))
   }
 }
-
-/* ================= PUT ================= */
 
 export const updateData = async <T, D>(
   url: string,
@@ -59,7 +53,6 @@ export const updateData = async <T, D>(
   }
 }
 
-/* ================= PATCH ================= */
 
 export const patchData = async <T, D>(
   url: string,
@@ -78,8 +71,6 @@ export const patchData = async <T, D>(
     store.dispatch(setLoading(false))
   }
 }
-
-/* ================= DELETE ================= */
 
 export const deleteData = async <T>(url: string): Promise<T> => {
   try {

@@ -1,4 +1,4 @@
-import { ReactNode } from 'react'
+import type { ReactNode } from 'react'
 import { useAppSelector, useAppDispatch } from '../app/hooks'
 import { closeModal } from '../store/settingsSlice'
 import Navbar from './Navbar'
@@ -17,13 +17,10 @@ const CommonWrapper = ({ children }: Props) => {
 
   return (
     <>
-      {/* НАВИГАЦИЯ */}
       <Navbar />
 
-      {/* LOADER */}
       {isLoading && <Loader />}
 
-      {/* МОДАЛКА ОШИБКИ */}
       {modalState && error && (
         <div
           style={{
@@ -38,7 +35,7 @@ const CommonWrapper = ({ children }: Props) => {
             alignItems: 'center',
           }}
         >
-          <div style={{ background: 'white', padding: 20 }}>
+          <div style={{ background: 'white', padding: 20, color: 'black' }}>
             <p>{error}</p>
             <button onClick={() => dispatch(closeModal())}>
               Закрыть
@@ -47,7 +44,6 @@ const CommonWrapper = ({ children }: Props) => {
         </div>
       )}
 
-      {/* ОСНОВНОЙ КОНТЕНТ */}
       {children}
     </>
   )

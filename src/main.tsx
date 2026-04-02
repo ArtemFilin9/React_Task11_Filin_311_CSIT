@@ -8,11 +8,11 @@ import AppRouter from './router/AppRouter'
 import './index.css'
 
 createRoot(document.getElementById('root')!).render(
-  <StrictMode>
+  //<StrictMode>
     <Provider store={store}>
       <BrowserRouter>
         <AppRouter />
       </BrowserRouter>
     </Provider>
-  </StrictMode>
+  //</StrictMode>
 )

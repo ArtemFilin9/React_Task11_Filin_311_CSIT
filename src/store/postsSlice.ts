@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { getData } from '../services/api'
+import { logout } from './userSlice';
 
 /* ================= TYPES ================= */
 
@@ -15,13 +16,9 @@ interface PostsState {
   posts: Post[]
 }
 
-/* ================= INITIAL STATE ================= */
-
 const initialState: PostsState = {
   posts: [],
 }
-
-/* ================= ASYNC THUNK ================= */
 
 export const fetchPosts = createAsyncThunk<Post[]>(
   'posts/fetchPosts',
@@ -30,19 +27,21 @@ export const fetchPosts = createAsyncThunk<Post[]>(
   }
 )
 
-/* ================= SLICE ================= */
-
 const postsSlice = createSlice({
   name: 'posts',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(
-      fetchPosts.fulfilled,
-      (state, action: PayloadAction<Post[]>) => {
-        state.posts = action.payload
-      }
-    )
+    builder
+      .addCase(
+        fetchPosts.fulfilled,
+        (state, action: PayloadAction<Post[]>) => {
+          state.posts = action.payload
+        }
+      )
+      .addCase(logout, (state) => {
+        state.posts = [];
+      })
   },
 })
 

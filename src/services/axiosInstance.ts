@@ -1,13 +1,11 @@
 import axios from 'axios'
 import type { RootState } from '../app/store'
 import { store } from '../app/store'
-import { setError } from '../store/settingsSlice'
+import { setError, openModal } from '../store/settingsSlice'
 
 export const axiosInstance = axios.create({
-  baseURL: 'https://jsonplaceholder.typicode.com', // заменить на свой бэк
+  baseURL: 'http://localhost:5000',
 })
-
-/* ================= REQUEST INTERCEPTOR ================= */
 
 axiosInstance.interceptors.request.use(
   (config) => {
@@ -23,12 +21,12 @@ axiosInstance.interceptors.request.use(
   (error) => Promise.reject(error)
 )
 
-/* ================= RESPONSE INTERCEPTOR ================= */
-
 axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
-    store.dispatch(setError('Ошибка сервера'))
+    const message = error.response?.data?.error || 'Ошибка сервера';
+    store.dispatch(setError(message));
+    store.dispatch(openModal());
     return Promise.reject(error)
   }
 )
