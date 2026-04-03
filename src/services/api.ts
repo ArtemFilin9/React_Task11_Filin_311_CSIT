@@ -10,7 +10,6 @@ export const getData = async <T>(url: string): Promise<T> => {
 
     return response.data
   } catch (error) {
-    store.dispatch(setError('Ошибка GET запроса'))
     throw error
   } finally {
     store.dispatch(setLoading(false))
@@ -28,7 +27,6 @@ export const postData = async <T, D>(
 
     return response.data
   } catch (error) {
-    store.dispatch(setError('Ошибка POST запроса'))
     throw error
   } finally {
     store.dispatch(setLoading(false))
@@ -46,7 +44,6 @@ export const updateData = async <T, D>(
 
     return response.data
   } catch (error) {
-    store.dispatch(setError('Ошибка PUT запроса'))
     throw error
   } finally {
     store.dispatch(setLoading(false))
@@ -65,7 +62,6 @@ export const patchData = async <T, D>(
 
     return response.data
   } catch (error) {
-    store.dispatch(setError('Ошибка PATCH запроса'))
     throw error
   } finally {
     store.dispatch(setLoading(false))
@@ -80,7 +76,6 @@ export const deleteData = async <T>(url: string): Promise<T> => {
 
     return response.data
   } catch (error) {
-    store.dispatch(setError('Ошибка DELETE запроса'))
     throw error
   } finally {
     store.dispatch(setLoading(false))
