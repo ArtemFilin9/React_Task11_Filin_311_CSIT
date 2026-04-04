@@ -15,12 +15,14 @@ const Navbar = () => {
   return (
     <nav className={styles.navbar}>
       <Link to="/">Главная</Link>
+      <Link to="/about">О нас</Link>
       <Link to="/dashboard">Dashboard</Link>
       <Link to="/profile">Профиль</Link>
       <Link to="/register">Регистрация</Link>
-      <Link to="/albums">Альбомы</Link>
+      <Link to="/albums">404</Link>
       <Link to="/loader-demo">Тест лоадера</Link>
       <Link to="/error-demo">Тест ошибки</Link>
+      <Link to="/contact">Связаться</Link>
 
       <button onClick={handleLogout}>
         Logout

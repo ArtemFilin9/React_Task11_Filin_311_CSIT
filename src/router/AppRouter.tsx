@@ -8,7 +8,8 @@ import Dashboard from '../pages/Dashboard/Dashboard'
 import NotFound from '../pages/NotFound/NotFound'
 import LoaderDemo from '../pages/LoaderDemo/LoaderDemo';
 import ErrorDemo from '../pages/ErrorDemo/ErrorDemo';
-
+import About from '../pages/About/About';
+import Contact from '../pages/Contact/Contact';
 
 import AuthWrapper from '../components/AuthWrapper'
 import CommonWrapper from '../components/CommonWrapper'
@@ -60,7 +61,9 @@ const AppRouter = () => {
           </AuthWrapper>
         }
       />
-
+      <Route path="/about" element={<CommonWrapper><About /></CommonWrapper>} />
+      <Route path="/contact" element={<CommonWrapper><Contact /></CommonWrapper>} />
+      
       <Route path="*" element={<CommonWrapper><NotFound /></CommonWrapper>} />
     </Routes>
   )

@@ -11,7 +11,7 @@ export const store = configureStore({
     settings: settingsReducer,
     posts: postsReducer,
     comments: commentsReducer,
-	albums: albumsReducer,
+	  albums: albumsReducer,
   },
 })
 
